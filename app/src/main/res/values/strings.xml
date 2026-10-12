@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Polyhedron-Generator</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">" "</string>
+    <string name="second_fragment_label">" "</string>
+    <string name="command_next">Next</string>
+    <string name="command_previous">Previous</string>
+    <string name="action_add_point">Add point</string>
+    <string name="action_new_canvas">New document</string>
+    <string name="question_dump_canvas_starting_new">Dump current polyhedron and start new document?</string>
+    <string name="question_dump_canvas">Dump polyhedron?</string>
+    <string name="command_yes">Yes</string>
+    <string name="command_no">No</string>
+    <string name="command_add">Add</string>
+    <string name="message_point_already_existing">A point with this coordinate already exists / invalid values!</string>
+    <string name="instruction_add_edge">Tap on the 2 end points of the edge (in series).</string>
+    <string name="action_add_edge">Add edge</string>
+    <string name="point">Point</string>
+    <string name="message_point_input_invalid">Invalid point: Empty field(s) / value(s) too big.</string>
+    <string name="message_point_none_found">No (free) point found.</string>
+    <string name="question_exit_app_without_saving">Exit without saving current state?</string>
+    <string name="action_set_axis_angles">Set angle of axes x/y/z</string>
+    <string name="command_set_axis_angles">Set angles</string>
+    <string name="action_set_axes">Set axes</string>
+</resources>

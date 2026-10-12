@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Polyeder-Generator</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="first_fragment_label">" "</string>
+    <string name="second_fragment_label">" "</string>
+    <string name="command_next">Weiter</string>
+    <string name="command_previous">Zurück</string>
+    <string name="action_add_point">Punkt hinzufügen</string>
+    <string name="action_new_canvas">Neues Dokument</string>
+    <string name="question_dump_canvas_starting_new">Aktuellen Polyeder verwerfen und neues Dokument beginnen?</string>
+    <string name="question_dump_canvas">Polyeder verwerfen?</string>
+    <string name="command_yes">Ja</string>
+    <string name="command_no">Nein</string>
+    <string name="command_add">Hinzufügen</string>
+    <string name="message_point_already_existing">Ein Punkt mit diesen Koordinaten existiert bereits / ungültige Werte!</string>
+    <string name="instruction_add_edge">2 Endpunkte der Kante (nacheinander) antippen.</string>
+    <string name="action_add_edge">Kante hinzufügen</string>
+    <string name="point">Punkt</string>
+    <string name="message_point_input_invalid">Ungültiger Punkt: Feld(er) leer / Wert(e) zu groß.</string>
+    <string name="message_point_none_found">Keinen (freien) Punkt gefunden.</string>
+    <string name="question_exit_app_without_saving">Beenden ohne den aktuellen Stand zu speichern?</string>
+    <string name="action_set_axis_angles">Winkel der Achsen x/y/z festlegen</string>
+    <string name="command_set_axis_angles">Festlegen</string>
+    <string name="action_set_axes">Achsen festlegen</string>
+</resources>

@@ -79,6 +79,16 @@ import com.pocketpurist.polyeder_generator.databinding.ActivityMainBinding
  *       Coordinates of polygon E-L-M-F = [2,90]/[0,13]-[2,90]/[-1,87]-[4,85]/[-0,29]-[2,90]/[0,13]
  *       Point G is encased by polygon E-L-M-F:  true
  * TODO
+ *  -> for README.md - simple demonstration polyhedron:
+ *     1 / 2 / 1
+ *     2 / 1 / 2
+ *     3 / 1 / 1
+ *     3 / 1 / 2
+ *     2 / 2 / 2
+ *     3 / 2 / 1
+ *     0 / 1 / 0
+ *     maybe the 8th edge:
+ *     1 / 2 / 0
  *  -> Visibility of (parts of) edges:  Try "Point on canvas with depth info" approach.
  *  o) "(automatically) Reduce Edges" feature (considering to remove points and join edges afterwards!):
  *     Find out for every 2 (combinations of) polygons located on the same plane: if they share

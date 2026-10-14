@@ -47,6 +47,7 @@ import com.pocketpurist.polyeder_generator.databinding.ActivityMainBinding
  *     Name:  Polyeder-Generator
  *     Package name:  com.pocketpurist.polyeder_generator
  *     Minimum SDK: API 16 (4.1)
+ * Axis colors:  X: Red / Y: Green / Z: Blue
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * FIXME
  *  o) Search whole project for "in edges" & "in singleEdges": For occurrences where it is falsely
@@ -185,9 +186,11 @@ class MainActivity : AppCompatActivity() {
                 dFact.correctionFactorXvsY = corrFactor
                 dFact.update()
                 userInterface.polyhedron.polyhedronOnCanvas.update()  // To update points' depths.
-                Log.d("fab.onClickListener", "generalSettings.depthFactor.correctionFactorXvsY = ${corrFactor}")
+                //Log.d("fab.onClickListener", "generalSettings.depthFactor.correctionFactorXvsY = ${corrFactor}")
                 //Log.d("fab.onClickListener", "generalSettings.depthFactor.axisX / axisY / axisZ = ${dFact.axisX} / ${dFact.axisY} / ${dFact.axisZ}")
-                createG17Edges()
+
+                //createG17Edges()
+                createG13Edges()
                 updateCanvas()
                 // Comparison of "edge fragment visibility patterns" of edges vs. edgesRecent:
                 for (edge in edges.singleEdges) {
@@ -195,7 +198,7 @@ class MainActivity : AppCompatActivity() {
                     if (!edgeRecently.isDummy() && !edge.hasSameFragmentVisibilitySequence(edgeRecently)) {
                         val patternRecently = edgeRecently.getFragmentVisibilityPattern()
                         val patternNow = edge.getFragmentVisibilityPattern()
-                        Log.d("fab.onClickListener", "change @ Fact $factorRecentCorrection -> $corrFactor: '${edge.getCaption()}' from '$patternRecently' -> '$patternNow'")
+                        //Log.d("fab.onClickListener", "change @ Fact $factorRecentCorrection -> $corrFactor: '${edge.getCaption()}' from '$patternRecently' -> '$patternNow'")
                     }
                 }
 
@@ -358,7 +361,7 @@ class MainActivity : AppCompatActivity() {
             findViewById<ImageView>(R.id.img_view_canvas)?.setImageBitmap(bitmap)
             userInterface.update(canvas)
 
-            logFragmentCountOfEdgeAG()
+            //logFragmentCountOfEdgeAG()
         }
     }
 
@@ -1175,6 +1178,42 @@ class MainActivity : AppCompatActivity() {
      *  A-G x B-I / A-G x C-J / A-G x D-K / A-G x E-L / D-K x E-F / E-L x J-K / G-N x L-M / N-O x P-S / O-T x R-S
      *  TODO delete this method if it got obsolete.
      */
+
+    /** Create points for a most simple polyhedron that is QUITE like the one in example G13
+     *  (but shifted from a vertical edge along the Z axis to:  X = 1; Y = 1).
+     */
+    private fun createG13AlikePoints() {
+        val exampleBody = userInterface.polyhedron
+        userInterface.generalSettings.viewAngleAxisX = 211f  // 210f
+        userInterface.generalSettings.viewAngleAxisY = 340f  // 330f
+        userInterface.generalSettings.viewAngleAxisZ = 90f
+
+        val factorAxesMax = 7.0f
+        userInterface.generalSettings.factorAxisX = 3.8f / factorAxesMax
+        userInterface.generalSettings.factorAxisY = 6.3f / factorAxesMax
+        userInterface.generalSettings.factorAxisZ = 5.0f / factorAxesMax
+
+        exampleBody.addPoint(1,1,0,"A")  // #0
+        exampleBody.addPoint(2,4,0,"B")  // #1
+        exampleBody.addPoint(4,2,0,"C")  // #2
+        exampleBody.addPoint(1,1,4,"P")  // #3;  Maybe use: 0 | 0 | 3
+        exampleBody.addPoint(2,4,3,"Q")  // #4
+        exampleBody.addPoint(4,2,2,"R")  // #5
+    }
+
+    private fun createG13Edges() {
+        val exampleBody = userInterface.polyhedron
+        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[1])  // A-B
+        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[2])  // A-C
+        exampleBody.edges.add(exampleBody.points[1], exampleBody.points[2])  // B-C
+        exampleBody.edges.add(exampleBody.points[3], exampleBody.points[4])  // P-Q
+        exampleBody.edges.add(exampleBody.points[3], exampleBody.points[5])  // P-R
+        exampleBody.edges.add(exampleBody.points[4], exampleBody.points[5])  // Q-R
+        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[3])  // A-P
+        exampleBody.edges.add(exampleBody.points[1], exampleBody.points[4])  // B-Q
+        exampleBody.edges.add(exampleBody.points[2], exampleBody.points[5])  // C-R
+    }
+
     private fun createG17Edges() {
         val example = userInterface.polyhedron
         if (example.points.size == 20) {
@@ -1260,29 +1299,6 @@ class MainActivity : AppCompatActivity() {
         */
 
         /*
-        // Example "G13":
-        //userInterface.generalSettings.viewAngleAxisX = 210f
-        //userInterface.generalSettings.viewAngleAxisY = 330f
-        //userInterface.generalSettings.viewAngleAxisZ = 90f
-        exampleBody.addPoint(0,0,0,"A")  // #0
-        exampleBody.addPoint(1,3,0,"B")  // #1
-        exampleBody.addPoint(3,1,0,"C")  // #2
-        exampleBody.addPoint(0,0,4,"P")  // #3;  Maybe use: 0 | 0 | 3
-        exampleBody.addPoint(1,3,3,"Q")  // #4
-        exampleBody.addPoint(3,1,2,"R")  // #5
-
-        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[1])  // A-B
-        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[2])  // A-C
-        exampleBody.edges.add(exampleBody.points[1], exampleBody.points[2])  // B-C
-        exampleBody.edges.add(exampleBody.points[3], exampleBody.points[4])  // P-Q
-        exampleBody.edges.add(exampleBody.points[3], exampleBody.points[5])  // P-R
-        exampleBody.edges.add(exampleBody.points[4], exampleBody.points[5])  // Q-R
-        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[3])  // A-P
-        exampleBody.edges.add(exampleBody.points[1], exampleBody.points[4])  // B-Q
-        exampleBody.edges.add(exampleBody.points[2], exampleBody.points[5])  // C-R
-        */
-
-        /*
         // Example "G14":
         userInterface.generalSettings.viewAngleAxisX = 250f
         userInterface.generalSettings.viewAngleAxisY = 350f
@@ -1304,6 +1320,9 @@ class MainActivity : AppCompatActivity() {
         exampleBody.edges.add(exampleBody.points[2], exampleBody.points[5])  // C-R
         */
 
+        createG13AlikePoints()
+
+        /*
         // Example "G17":
         userInterface.generalSettings.viewAngleAxisX = 226f  // Alternative view: 320f
         userInterface.generalSettings.viewAngleAxisY = 342f  //                    12f
@@ -1332,6 +1351,7 @@ class MainActivity : AppCompatActivity() {
         exampleBody.addPoint(1,0,5,"R")  // #17
         exampleBody.addPoint(1,2,5,"S")  // #18
         exampleBody.addPoint(0,2,5,"T")  // #19
+        */
 
         /*
         // Example "G18":

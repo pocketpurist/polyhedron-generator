@@ -1204,8 +1204,8 @@ class MainActivity : AppCompatActivity() {
     private fun createG13Edges() {
         val exampleBody = userInterface.polyhedron
         exampleBody.edges.add(exampleBody.points[0], exampleBody.points[1])  // A-B
-        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[2])  // A-C
-        exampleBody.edges.add(exampleBody.points[1], exampleBody.points[2])  // B-C
+        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[2], true)  // A-C
+        exampleBody.edges.add(exampleBody.points[1], exampleBody.points[2], true)  // B-C
         exampleBody.edges.add(exampleBody.points[3], exampleBody.points[4])  // P-Q
         exampleBody.edges.add(exampleBody.points[3], exampleBody.points[5])  // P-R
         exampleBody.edges.add(exampleBody.points[4], exampleBody.points[5])  // Q-R

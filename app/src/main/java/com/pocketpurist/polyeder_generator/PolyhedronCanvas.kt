@@ -898,6 +898,7 @@ class PolyhedronCanvas {
              */
             inner class Edge(val point1: Point3D, val point2: Point3D) {  // inner class Edge
                 var countPolygonsItIsPartOf = 0
+                var isInvisible = false  // true => completely invisible edge. Overruling edgeFragments[].isVisible
                 val positionsOfEdgeCrossings = mutableListOf<Float>()  // (At those positions the edge is certainly invisible.)
                 val edgeFragments = mutableListOf<EdgeFragment>()  // Stores visibility data for parts of the edge. Supposed to build a continuous line.
                 operator fun component1() = point1
@@ -1222,7 +1223,9 @@ class PolyhedronCanvas {
                     var patternVisibility = ""
                     if (!isDummy()) {
                         for (edgeFragment in edgeFragments) {
-                            if (edgeFragment.isVisible) patternVisibility += "-" else patternVisibility += "·"
+                            if (isInvisible) patternVisibility += "·"  // chg jg 2026-10-31
+                            else if (edgeFragment.isVisible) patternVisibility += "-"
+                            else patternVisibility += "·"
                         }
                     }
                     return patternVisibility
@@ -1319,7 +1322,7 @@ class PolyhedronCanvas {
                 /** Adds a new "pair of 3D points" if an edge with the specified points is not
                  *  already present (order independently!).
                  */
-                fun add(point1: Point3D, point2: Point3D) {
+                fun add(point1: Point3D, point2: Point3D, isInvisible: Boolean = false) {
                     if (!isAlreadyExisting(point1, point2)) {
                         singleEdges.add(Edge(point1, point2))
                         polygons.collect()

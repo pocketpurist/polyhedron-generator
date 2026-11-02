@@ -190,7 +190,8 @@ class MainActivity : AppCompatActivity() {
                 //Log.d("fab.onClickListener", "generalSettings.depthFactor.axisX / axisY / axisZ = ${dFact.axisX} / ${dFact.axisY} / ${dFact.axisZ}")
 
                 //createG17Edges()
-                createG13Edges()
+                //createG13Edges()
+                turnG13CameraViewLeft()
                 updateCanvas()
                 // Comparison of "edge fragment visibility patterns" of edges vs. edgesRecent:
                 for (edge in edges.singleEdges) {
@@ -1184,9 +1185,9 @@ class MainActivity : AppCompatActivity() {
      */
     private fun createG13AlikePoints() {
         val exampleBody = userInterface.polyhedron
-        userInterface.generalSettings.viewAngleAxisX = 211f  // 210f
-        userInterface.generalSettings.viewAngleAxisY = 340f  // 330f
-        userInterface.generalSettings.viewAngleAxisZ = 90f
+        userInterface.generalSettings.viewAngleAxisX = 211f  // 320f
+        userInterface.generalSettings.viewAngleAxisY = 340f  //  15f
+        userInterface.generalSettings.viewAngleAxisZ =  90f
 
         val factorAxesMax = 7.0f
         userInterface.generalSettings.factorAxisX = 3.8f / factorAxesMax
@@ -1204,14 +1205,30 @@ class MainActivity : AppCompatActivity() {
     private fun createG13Edges() {
         val exampleBody = userInterface.polyhedron
         exampleBody.edges.add(exampleBody.points[0], exampleBody.points[1])  // A-B
-        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[2], true)  // A-C
-        exampleBody.edges.add(exampleBody.points[1], exampleBody.points[2], true)  // B-C
+        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[2])  // A-C
+        exampleBody.edges.add(exampleBody.points[1], exampleBody.points[2])  // B-C
         exampleBody.edges.add(exampleBody.points[3], exampleBody.points[4])  // P-Q
         exampleBody.edges.add(exampleBody.points[3], exampleBody.points[5])  // P-R
         exampleBody.edges.add(exampleBody.points[4], exampleBody.points[5])  // Q-R
         exampleBody.edges.add(exampleBody.points[0], exampleBody.points[3])  // A-P
         exampleBody.edges.add(exampleBody.points[1], exampleBody.points[4])  // B-Q
         exampleBody.edges.add(exampleBody.points[2], exampleBody.points[5])  // C-R
+    }
+
+    /**
+     * Turns the "camera view" from the "initial G13 Example view" to the left.
+     */
+    private fun turnG13CameraViewLeft() {
+        val exampleBody = userInterface.polyhedron
+        val edge1 = exampleBody.edges.singleEdges[1]
+        val edge2 = exampleBody.edges.singleEdges[2]
+
+        userInterface.generalSettings.viewAngleAxisX = 320f  // 211f
+        userInterface.generalSettings.viewAngleAxisY =  15f  // 340f
+        userInterface.generalSettings.viewAngleAxisZ =  90f
+
+        edge1.isInvisible = true  // Using a trick: Correcting a buggy auto-generated visibility.
+        edge2.isInvisible = true  //   - " -
     }
 
     private fun createG17Edges() {
@@ -1321,6 +1338,7 @@ class MainActivity : AppCompatActivity() {
         */
 
         createG13AlikePoints()
+        createG13Edges()
 
         /*
         // Example "G17":

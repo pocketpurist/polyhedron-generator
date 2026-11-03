@@ -892,13 +892,13 @@ class PolyhedronCanvas {
             }  // inner class AxisInfo
 
             /** Contains data for a (3D) edge [point1]/[point2] - including:
+             *  [isInvisible]: true => completely invisible edge. Overruling edgeFragments[].isVisible
              *  [countPolygonsItIsPartOf]:  Number of polygons the edge is part of.
              *  [positionsOfEdgeCrossings]: Positions of (frontal!) crossing edges relative to [point1].
              *  [edgeFragments]: Parts of the edge with specified visibility:  .isVisible
              */
-            inner class Edge(val point1: Point3D, val point2: Point3D) {  // inner class Edge
+            inner class Edge(val point1: Point3D, val point2: Point3D, var isInvisible: Boolean = false) {  // inner class Edge
                 var countPolygonsItIsPartOf = 0
-                var isInvisible = false  // true => completely invisible edge. Overruling edgeFragments[].isVisible
                 val positionsOfEdgeCrossings = mutableListOf<Float>()  // (At those positions the edge is certainly invisible.)
                 val edgeFragments = mutableListOf<EdgeFragment>()  // Stores visibility data for parts of the edge. Supposed to build a continuous line.
                 operator fun component1() = point1
@@ -1324,7 +1324,7 @@ class PolyhedronCanvas {
                  */
                 fun add(point1: Point3D, point2: Point3D, isInvisible: Boolean = false) {
                     if (!isAlreadyExisting(point1, point2)) {
-                        singleEdges.add(Edge(point1, point2))
+                        singleEdges.add(Edge(point1, point2, isInvisible))
                         polygons.collect()
                     }
                 }
@@ -2084,7 +2084,7 @@ class PolyhedronCanvas {
                         if (edge.edgeFragments.isNotEmpty()) {
                             for (edgeFragment in edge.edgeFragments) {
                                 val (p1, p2) = edgeFragment
-                                val paint = if (edgeFragment.isVisible) paintSolid else paintDashed
+                                val paint = if (edgeFragment.isVisible && !edge.isInvisible) paintSolid else paintDashed
                                 canvas.drawLine(marginLeft + p1.x * sizeFactor,marginTop + p1.y * sizeFactor,
                                     marginLeft + p2.x * sizeFactor,marginTop + p2.y * sizeFactor, paint)
                             }

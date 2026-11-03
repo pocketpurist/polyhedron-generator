@@ -1202,17 +1202,27 @@ class MainActivity : AppCompatActivity() {
         exampleBody.addPoint(4,2,2,"R")  // #5
     }
 
+    /**
+     * Performs necessary steps after one or more angles got changed.
+     */
+    private fun processViewAngleChange() {
+        userInterface.polyhedron.axisInfo.update()
+        userInterface.polyhedron.polyhedronOnCanvas.update()
+        userInterface.polyhedron.edges.updateVisibility()
+    }
     private fun createG13Edges() {
         val exampleBody = userInterface.polyhedron
-        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[1])  // A-B
-        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[2])  // A-C
+        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[1], true)  // A-B
+        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[2], true)  // A-C
         exampleBody.edges.add(exampleBody.points[1], exampleBody.points[2])  // B-C
         exampleBody.edges.add(exampleBody.points[3], exampleBody.points[4])  // P-Q
         exampleBody.edges.add(exampleBody.points[3], exampleBody.points[5])  // P-R
         exampleBody.edges.add(exampleBody.points[4], exampleBody.points[5])  // Q-R
-        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[3])  // A-P
+        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[3], true)  // A-P
         exampleBody.edges.add(exampleBody.points[1], exampleBody.points[4])  // B-Q
         exampleBody.edges.add(exampleBody.points[2], exampleBody.points[5])  // C-R
+
+        processViewAngleChange()
     }
 
     /**
@@ -1220,15 +1230,18 @@ class MainActivity : AppCompatActivity() {
      */
     private fun turnG13CameraViewLeft() {
         val exampleBody = userInterface.polyhedron
-        val edge1 = exampleBody.edges.singleEdges[1]
-        val edge2 = exampleBody.edges.singleEdges[2]
+        val edgeAB = exampleBody.edges.singleEdges[0]
+        val edgeAC = exampleBody.edges.singleEdges[1]
+        val edgeAP = exampleBody.edges.singleEdges[6]
 
         userInterface.generalSettings.viewAngleAxisX = 320f  // 211f
         userInterface.generalSettings.viewAngleAxisY =  15f  // 340f
         userInterface.generalSettings.viewAngleAxisZ =  90f
+        edgeAB.isInvisible = false  // Using a trick: Correcting a buggy auto-generated visibility.
+        edgeAC.isInvisible = false  //  - " -
+        edgeAP.isInvisible = false  //   - " -
 
-        edge1.isInvisible = true  // Using a trick: Correcting a buggy auto-generated visibility.
-        edge2.isInvisible = true  //   - " -
+        processViewAngleChange()
     }
 
     private fun createG17Edges() {

@@ -4,15 +4,8 @@
 
 ## Screens
 <figure>
-<img src="/app/src/main/res/drawable/sample_screenshots/1_new.jpg" alt="Start new document" width="256" height="256" valign="top" />
+<img src="app/src/main/res/drawable/sample_screenshots/1_new.jpg" alt="Start new document" width="230" height="430" valign="top" />
 <figuretext>(1) Start new document</figuretext>
 </figure>
 <br />
-<br />
-|||
-|(1) Start new document |  (2) Add point |
-|:---:|:---:|
-|![](/app/src/main/res/drawable/sample_screenshots/1_new.jpg) |![](/app/src/main/res/drawable/sample_screenshots/2_add_point.jpg)|
-<br />
-
 <br />

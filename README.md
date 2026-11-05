@@ -5,7 +5,7 @@
 ## Screens
 <figure>
 <img src="app/src/main/res/drawable/sample_screenshots/1_new.jpg" alt="Start new document" width="230" height="430" valign="top" />
-<figuretext>(1) Start new document by clicking on symbol <img src="app/src/main/res/drawable/symbol_new.xml" alt="'new'" width="64" height="64" valign="top" /></figuretext>
+<figuretext>(1) Start new document by clicking on symbol <img src="app/src/main/res/drawable/sample_symbols/symbol_new.jpg" alt="'new'" width="20" height="20" valign="top" /></figuretext>
 </figure>
 <br />
 <br />

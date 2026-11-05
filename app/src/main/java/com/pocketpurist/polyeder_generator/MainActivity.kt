@@ -40,7 +40,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.pocketpurist.polyeder_generator.databinding.ActivityMainBinding
 
 /***************************************************************************************************
- * Creating polyhedrons (within a skew coordinate system) by specifying points & edges
+ * Creating polyhedrons (in a skew coordinate system) by specifying points & edges
  * (and in future: face colors if desired).
  * Started on:  2023-10-23
  * as: Basic Views Activity
@@ -59,40 +59,16 @@ import com.pocketpurist.polyeder_generator.databinding.ActivityMainBinding
  *     => and/or: Polygon:getPointAfter(point3D: Point3D): Point3D
  *  o) (possibly) isEncasingPoint and (certainly) isInFrontOfPoint failing.
  *     [Debugging - All edges of G17 without frontal intersection that are enclosed by at least 1 polygon]:
- *       Points along edge D-E are enclosed by polygons 1 times in total.
- *       Points along edge F-G are enclosed by polygons 1 times in total.
- *       Points along edge H-I are enclosed by polygons 1 times in total.
- *       Points along edge I-J are enclosed by polygons 1 times in total.
- *       Points along edge J-K are enclosed by polygons 1 times in total.
- *       Points along edge K-L are enclosed by polygons 2 times in total.
- *       Points along edge L-M are enclosed by polygons 1 times in total.
- *       Points along edge O-P are enclosed by polygons 2 times in total.
- *       Points along edge H-P are enclosed by polygons 1 times in total.
- *       Points along edge Q-R are enclosed by polygons 1 times in total.
- *       Points along edge R-S are enclosed by polygons 1 times in total.
- *       Points along edge H-R are enclosed by polygons 1 times in total.
- *       Points along edge O-T are enclosed by polygons 1 times in total.
- *       Points along edge B-I are enclosed by polygons 1 times in total.
- *       Points along edge C-J are enclosed by polygons 1 times in total.
- *       Points along edge D-K are enclosed by polygons 2 times in total.
- *       Points along edge E-L are enclosed by polygons 2 times in total.  !! HAS 1 frontal intersection !!
- *       Points along edge G-N are enclosed by polygons 1 times in total.
+ *       Points along the following edges are enclosed by polygons 1 times in total:
+ *       D-E / F-G / H-I / I-J / J-K / K-L / L-M / O-P / H-P / Q-R / R-S / H-R / O-T / B-I / C-J / G-N
+ *       Points along the following edges are enclosed by polygons 2 times in total:
+ *       D-K / E-L  (!! E-L HAS 1 frontal intersection !!
  *       -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  *       Coordinates of point G = 3,91/-0,83
  *       Coordinates of polygon E-L-M-F = [2,90]/[0,13]-[2,90]/[-1,87]-[4,85]/[-0,29]-[2,90]/[0,13]
  *       Point G is encased by polygon E-L-M-F:  true
  * TODO
- *  -> for README.md - simple demonstration polyhedron:
- *     1 / 2 / 1
- *     2 / 1 / 2
- *     3 / 1 / 1
- *     3 / 1 / 2
- *     2 / 2 / 2
- *     3 / 2 / 1
- *     0 / 1 / 0
- *     maybe the 8th edge:
- *     1 / 2 / 0
- *  -> Visibility of (parts of) edges:  Try "Point on canvas with depth info" approach.
+ *  o) Visibility of (parts of) edges:  Try "Point on canvas with depth info" approach.
  *  o) "(automatically) Reduce Edges" feature (considering to remove points and join edges afterwards!):
  *     Find out for every 2 (combinations of) polygons located on the same plane: if they share
  *     an edge => edge to delete.
@@ -192,8 +168,8 @@ class MainActivity : AppCompatActivity() {
                 //Log.d("fab.onClickListener", "generalSettings.depthFactor.axisX / axisY / axisZ = ${dFact.axisX} / ${dFact.axisY} / ${dFact.axisZ}")
 
                 //createG17Edges()
-                //createG13Edges()
-                turnG13CameraViewLeft()
+                createG13Edges()
+                // turnG13CameraViewRight()
                 updateCanvas()
                 // Comparison of "edge fragment visibility patterns" of edges vs. edgesRecent:
                 for (edge in edges.singleEdges) {
@@ -851,9 +827,7 @@ class MainActivity : AppCompatActivity() {
                 userInterface.generalSettings.viewAngleAxisX = xValue
                 userInterface.generalSettings.viewAngleAxisY = yValue
                 userInterface.generalSettings.viewAngleAxisZ = zValue
-                userInterface.polyhedron.axisInfo.update()
-                userInterface.polyhedron.polyhedronOnCanvas.update()
-                userInterface.polyhedron.edges.updateVisibility()
+                processViewAngleChange()
                 updateCanvas()
                 gotAdded = true
             } else {  // FIXME replace with correct error message.
@@ -1187,8 +1161,8 @@ class MainActivity : AppCompatActivity() {
      */
     private fun createG13AlikePoints() {
         val exampleBody = userInterface.polyhedron
-        userInterface.generalSettings.viewAngleAxisX = 211f  // 320f
-        userInterface.generalSettings.viewAngleAxisY = 340f  //  15f
+        userInterface.generalSettings.viewAngleAxisX = 320f  // 211f
+        userInterface.generalSettings.viewAngleAxisY = 15f   // 340f
         userInterface.generalSettings.viewAngleAxisZ =  90f
 
         val factorAxesMax = 7.0f
@@ -1205,7 +1179,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Performs necessary steps after one or more angles got changed.
+     * Performs necessary steps after one or more angles got changed (or edges are displayed
+     * for the first time).
      */
     private fun processViewAngleChange() {
         userInterface.polyhedron.axisInfo.update()
@@ -1214,13 +1189,13 @@ class MainActivity : AppCompatActivity() {
     }
     private fun createG13Edges() {
         val exampleBody = userInterface.polyhedron
-        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[1], true)  // A-B
-        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[2], true)  // A-C
+        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[1])  // A-B
+        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[2])  // A-C
         exampleBody.edges.add(exampleBody.points[1], exampleBody.points[2])  // B-C
         exampleBody.edges.add(exampleBody.points[3], exampleBody.points[4])  // P-Q
         exampleBody.edges.add(exampleBody.points[3], exampleBody.points[5])  // P-R
         exampleBody.edges.add(exampleBody.points[4], exampleBody.points[5])  // Q-R
-        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[3], true)  // A-P
+        exampleBody.edges.add(exampleBody.points[0], exampleBody.points[3])  // A-P
         exampleBody.edges.add(exampleBody.points[1], exampleBody.points[4])  // B-Q
         exampleBody.edges.add(exampleBody.points[2], exampleBody.points[5])  // C-R
 
@@ -1228,20 +1203,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Turns the "camera view" from the "initial G13 Example view" to the left.
+     * Turns the "camera view" from the "initial G13 Example view" to the right.
      */
-    private fun turnG13CameraViewLeft() {
+    private fun turnG13CameraViewRight() {
         val exampleBody = userInterface.polyhedron
         val edgeAB = exampleBody.edges.singleEdges[0]
         val edgeAC = exampleBody.edges.singleEdges[1]
         val edgeAP = exampleBody.edges.singleEdges[6]
 
-        userInterface.generalSettings.viewAngleAxisX = 320f  // 211f
-        userInterface.generalSettings.viewAngleAxisY =  15f  // 340f
+        userInterface.generalSettings.viewAngleAxisX = 211f  // 320f
+        userInterface.generalSettings.viewAngleAxisY = 340f  //  15f
         userInterface.generalSettings.viewAngleAxisZ =  90f
-        edgeAB.isInvisible = false  // Using a trick: Correcting a buggy auto-generated visibility.
-        edgeAC.isInvisible = false  //  - " -
-        edgeAP.isInvisible = false  //   - " -
+        edgeAB.isInvisible = true  // Using a trick: Correcting a buggy auto-generated visibility.
+        edgeAC.isInvisible = true  //  - " -
+        edgeAP.isInvisible = true  //   - " -
 
         processViewAngleChange()
     }
@@ -1353,7 +1328,6 @@ class MainActivity : AppCompatActivity() {
         */
 
         createG13AlikePoints()
-        createG13Edges()
 
         /*
         // Example "G17":

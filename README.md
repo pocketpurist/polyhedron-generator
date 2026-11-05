@@ -9,10 +9,3 @@
 </figure>
 <br />
 <br />
-|||
-| (1) Start new document |  (2) Add point |
-| --- | --- |
-| (/app/src/main/res/drawable/sample_screenshots/1_new.jpg) | (/app/src/main/res/drawable/sample_screenshots/2_add_point.jpg) |
-<br />
-
-<br />

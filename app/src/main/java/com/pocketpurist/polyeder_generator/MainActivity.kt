@@ -50,6 +50,7 @@ import com.pocketpurist.polyeder_generator.databinding.ActivityMainBinding
  * Axis colors:  X: Red / Y: Green / Z: Blue
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Implemented consequently object-oriented - e.g. with the classes: Point3D, Edge, Polyhedron etc.
+ *                                            (Class file: PolyhedronCanvas.kt)
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * FIXME
  *  o) Search whole project for "in edges" & "in singleEdges": For occurrences where it is falsely
@@ -63,7 +64,7 @@ import com.pocketpurist.polyeder_generator.databinding.ActivityMainBinding
  *       D-E / F-G / H-I / I-J / J-K / K-L / L-M / O-P / H-P / Q-R / R-S / H-R / O-T / B-I / C-J / G-N
  *       Points along the following edges are enclosed by polygons 2 times in total:
  *       D-K / E-L  (!! E-L HAS 1 frontal intersection !!
- *       -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+ *       -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
  *       Coordinates of point G = 3,91/-0,83
  *       Coordinates of polygon E-L-M-F = [2,90]/[0,13]-[2,90]/[-1,87]-[4,85]/[-0,29]-[2,90]/[0,13]
  *       Point G is encased by polygon E-L-M-F:  true

@@ -49,6 +49,8 @@ import com.pocketpurist.polyeder_generator.databinding.ActivityMainBinding
  *     Minimum SDK: API 16 (4.1)
  * Axis colors:  X: Red / Y: Green / Z: Blue
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Implemented consequently object-oriented - e.g. with the classes: Point3D, Edge, Polyhedron etc.
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * FIXME
  *  o) Search whole project for "in edges" & "in singleEdges": For occurrences where it is falsely
  *     assumed that the edges' points are sorted in a way so you could step through some edges to
